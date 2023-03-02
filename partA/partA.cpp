@@ -1,12 +1,16 @@
 #include <iostream>
+#include <vector>
 
 using namespace std;
 class Node {
-  public: int data;
+  public: 
+  int data;
+  unsigned int height;
   Node * left;
   Node * right;
   Node() {
     data = 0;
+    height = 0;
     left = NULL;
     right = NULL;
   }
@@ -47,19 +51,27 @@ Node * insert(Node * root, Node * element) {
     return element;
   } else {
     // element should be inserted to the right.
+    element->height++;
     if (element -> data > root -> data) {
       // There is a right subtree to insert the node.
       if (root -> right != NULL)
+      {
         root -> right = insert(root -> right, element);
+      }
       // Place the node directly to the right of root.
       else
+      {
         root -> right = element;
+      }
     }
     // element should be inserted to the left.
     else {
+      element->height++;
       // There is a left subtree to insert the node.
       if (root -> left != NULL)
-        root -> left = insert(root -> left, element);
+        {
+          root -> left = insert(root -> left, element);
+        }
       // Place the node directly to the left of root.
       else
         root -> left = element;
@@ -289,7 +301,6 @@ Node * next(Node * root, Node * N)
 
 }
 
-
 Node * leftDescendant(Node * N)
 {
 
@@ -317,6 +328,105 @@ Node * rightAncestor(Node * root, Node * N)
   {
     return rightAncestor(root, parent(root, N));
   }
+
+}
+
+vector<int> rangeSearch(int low, int high, Node * root)
+{
+
+  vector<int> myVect;
+  Node * temp = findNode(root, low);
+
+  while(temp->data <= high)
+  {
+
+    if(temp->data >= low)
+    myVect.push_back(temp->data);
+
+    temp = next(temp);    
+
+  }
+
+  return myVect;
+
+
+
+}
+
+int computeHeight(Node * targetNode)
+{
+
+  return targetNode->height;
+
+}
+
+bool isUnbalanced(Node * root, Node * workingNode)
+{
+
+  int valHold = 0;
+
+  if(isLeaf(workingNode->right))
+  valHold = findLowestLeafHeight(root, workingNode) - workingNode->right->height; 
+  else
+  valHold = findLowestLeafHeight(root, workingNode) - findLowestLeafHeight(root, workingNode->right); 
+
+  if(valHold < -1 || valHold > 1)
+  return false;
+  else
+  return true;
+
+}
+
+//! This might go wrong
+int findLowestLeafHeight(Node * root, Node * workingNode)
+{
+
+
+  
+  if(!isLeaf(workingNode))
+  {
+
+    return findLowestLeafHeight(root, workingNode->left);
+
+  }
+  else
+  {
+    if(isLeaf(workingNode))
+    {
+      if(parent(root, workingNode)->right == NULL)
+      {
+        return workingNode->height;
+      }
+      return findLowestLeafHeight(root, parent(root, workingNode)->right); 
+    }
+    else
+    return workingNode->height;
+
+  }
+
+}
+
+//! This might also go wrong
+void rotateRight(Node * root, Node * workingNode)
+{
+
+  /*
+    parentNode = P
+    leftChildNode = Y
+    rightLeftChildNode = B 
+  
+  */ 
+    Node * parentNode = parent(root, workingNode);
+    Node * leftChildNode = workingNode->left;
+    Node * rLChildNode = leftChildNode->right;
+
+    *parent(root, leftChildNode) = *parentNode;
+    parentNode->left = leftChildNode;
+    *parent(root, workingNode) = *leftChildNode;
+    leftChildNode->right = workingNode;
+    *parent(root, rLChildNode) = *workingNode;
+    workingNode->left = rLChildNode;
+
 
 }
 

@@ -8,14 +8,18 @@ class Node {
   unsigned int height;
   Node * left;
   Node * right;
+  Node * parent;
   Node() {
     data = 0;
     height = 0;
+    parent = NULL;
     left = NULL;
     right = NULL;
   }
   Node(int val) {
     data = val;
+    height = 0;
+    parent = NULL;
     left = NULL;
     right = NULL;
   }
@@ -52,6 +56,7 @@ Node * insert(Node * root, Node * element) {
   } else {
     // element should be inserted to the right.
     element->height++;
+    //* element->parent = parent(root, element);
     if (element -> data > root -> data) {
       // There is a right subtree to insert the node.
       if (root -> right != NULL)
@@ -62,6 +67,8 @@ Node * insert(Node * root, Node * element) {
       else
       {
         root -> right = element;
+        element->parent = parent(root, element);
+
       }
     }
     // element should be inserted to the left.
@@ -75,6 +82,7 @@ Node * insert(Node * root, Node * element) {
       // Place the node directly to the left of root.
       else
         root -> left = element;
+        element->parent = parent(root, element);
     }
     // Return the root pointer of the updated tree.
     return root;
@@ -368,7 +376,7 @@ bool isUnbalanced(Node * root, Node * workingNode)
   if(isLeaf(workingNode->right))
   valHold = findLowestLeafHeight(root, workingNode) - workingNode->right->height; 
   else
-  valHold = findLowestLeafHeight(root, workingNode) - findLowestLeafHeight(root, workingNode->right); 
+  valHold = balanceFactor(root, workingNode);
 
   if(valHold < -1 || valHold > 1)
   return false;
@@ -377,11 +385,12 @@ bool isUnbalanced(Node * root, Node * workingNode)
 
 }
 
+//* The inserted Node is the deepest leaf
 //! This might go wrong
 int findLowestLeafHeight(Node * root, Node * workingNode)
 {
 
-
+  int heightHold;
   
   if(!isLeaf(workingNode))
   {
@@ -407,7 +416,7 @@ int findLowestLeafHeight(Node * root, Node * workingNode)
 }
 
 //! This might also go wrong
-void rotateRight(Node * root, Node * workingNode)
+void rotateRight(Node * workingNode)
 {
 
   /*
@@ -416,20 +425,133 @@ void rotateRight(Node * root, Node * workingNode)
     rightLeftChildNode = B 
   
   */ 
-    Node * parentNode = parent(root, workingNode);
+    Node * parentNode = workingNode->parent; 
     Node * leftChildNode = workingNode->left;
     Node * rLChildNode = leftChildNode->right;
 
-    *parent(root, leftChildNode) = *parentNode;
+    leftChildNode->parent = parentNode;    
     parentNode->left = leftChildNode;
-    *parent(root, workingNode) = *leftChildNode;
+    workingNode->parent = leftChildNode;
     leftChildNode->right = workingNode;
-    *parent(root, rLChildNode) = *workingNode;
+    rLChildNode->parent = workingNode;
     workingNode->left = rLChildNode;
 
 
 }
 
+//! Same as rotate right
+void rotateLeft(Node * workingNode)
+{
+
+  Node * parentNode = workingNode->parent;
+  Node * rightChild = workingNode->right;
+  Node * lRChild = rightChild->left;
+
+  rightChild->parent = parentNode;
+  parentNode->right = rightChild;
+  workingNode->parent = rightChild;
+  rightChild->left = workingNode;
+  lRChild->parent = workingNode;
+  workingNode->right = lRChild;
+
+}
+
+int balanceFactor(Node * root, Node * targetNode)
+{
+
+  return findLowestLeafHeight(root, targetNode) - findLowestLeafHeight(root, targetNode->right);
+
+}
+
+void adjustHeight(Node * targetNode)
+{
+
+  targetNode->height = 1 + max(targetNode->left->height, targetNode->right->height);
+
+}
+
+void rebalance(Node * targetNode)
+{
+
+  Node * parentNode = targetNode->parent;  
+
+  if(targetNode->left->height > targetNode->right->height + 1)
+  {
+
+    rebalanceRight(targetNode);
+
+  }
+  else if(targetNode->right->height > targetNode->left->height + 1)
+  {
+
+    rebalanceLeft(targetNode);
+
+  }
+
+  adjustHeight(targetNode);
+
+  if(parentNode != NULL)
+  {
+
+    rebalance(parentNode);
+
+  }
+  
+
+}
+
+void rebalanceRight(Node * targetNode)
+{
+
+  Node * temp = targetNode->left;
+
+  if(temp->right->height > temp->left->height)
+  {
+    rotateLeft(temp);
+    adjustHeight(temp);
+  }
+  
+  rotateRight(temp);
+  adjustHeight(temp);
+
+}
+
+void rebalanceLeft(Node * targetNode)
+{
+
+  Node * temp = targetNode->right;  
+
+  if(temp->left->height > temp->right->height)
+  {
+    rotateRight(temp);
+    adjustHeight(temp);
+  }
+
+  rotateLeft(temp);
+  adjustHeight(temp);
+
+
+}
+
+void AVLInsert(Node * root, Node * workingNode)
+{
+
+  insert(root, workingNode);
+  Node * temp = findNode(workingNode, workingNode->data);
+  rebalance(temp);
+
+
+}
+
+void AVLDelete(Node * root, Node * workingNode)
+{
+
+  deleteNode(root, workingNode->data);
+  Node * temp = workingNode->parent; 
+  rebalance(temp);
+
+
+}
 
 int main() {
     Node * myRoot = NULL, * tempNode;

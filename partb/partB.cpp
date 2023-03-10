@@ -25,26 +25,26 @@ class HeapBuilder {
 
   //the more effective implementation of GenerateSwaps()
   void GenerateSwaps(int i) {
-    int smallest = i; // Initialize largest as root
-    int l = 2 * i + 1; // left = 2*i + 1
-    int r = 2 * i + 2; // right = 2*i + 2
-  
+    int smallest = i;  // Initialize smallest as root
+    int l = 2 * i + 1; // left
+    int r = 2 * i + 2; // right
+
     // If left is smaller
-    if (l < data_.size() && data_[l] > data_[smallest])
-        smallest = l;
-  
+    if (l < data_.size() && data_[l] < data_[smallest])
+      smallest = l;
+
     // If right is smaller
-    if (r < data_.size() && data_[r] > data_[smallest])
-        smallest = r;
-  
+    else if (r < data_.size() && data_[r] < data_[smallest])
+      smallest = r;
+
     // If smallest is not root
     if (smallest != i) {
-      
-        swap(data_[i], data_[smallest]);
-        swaps_.push_back(make_pair(i, smallest));
-  
-        // Recursively heapify the affected sub-tree
-        GenerateSwaps(smallest);
+
+      swap(data_[i], data_[smallest]);
+      swaps_.push_back(make_pair(i, smallest));
+
+      // Recursively heapify the affected sub-tree
+      GenerateSwaps(smallest);
     }
   }
   

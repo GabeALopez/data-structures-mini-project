@@ -55,7 +55,7 @@ class JobQueue {
     for (int i = 0; i < jobs_.size(); ++i) {
         int duration = jobs_[i];
 
-    auto next_worker = pq.top();
+    std::pair<long long, int> next_worker = pq.top();
     pq.pop();
 
     assigned_workers_[i] = next_worker.second;

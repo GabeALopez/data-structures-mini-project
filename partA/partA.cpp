@@ -304,7 +304,10 @@ int menu() {
   cout << "3. Search for an item in your tree.\n";
   cout << "4. Print the sum of the nodes. \n";
   cout << "5. Print out an inorder traversal.\n";
-  cout << "6. Exit.\n";
+  cout << "6. Print out next element of node with key x";
+  cout << "7. Print the elements between x and y";
+  cout << "8. Print the height of the tree with root x";
+  cout << "9. Exit.\n";
   cin >> ans;
   return ans;
 }
@@ -324,6 +327,8 @@ Node * next(Node * root, Node * N)
     return rightAncestor(root, N);
 
   }
+
+  
 
 }
 
@@ -573,7 +578,7 @@ int main()
     Node * myRoot = NULL, * tempNode;
     int done = 0, ans = 1, val, q6data;
     ans = menu();
-    while (ans < 8) {
+    while (ans != 9) {
       if (ans == 1) {
         // Get value to insert.
         cout << "What value would you like to insert?";
@@ -620,6 +625,74 @@ int main()
         cout << "Here is an inorder traversal of your tree: ";
         inorder(myRoot);
         cout << "\n";
+      }
+      if(ans == 6)
+      {
+
+        cout << "What is the target node?";
+        cin >> val;
+
+        if(!find(myRoot, val))
+        {
+
+          cout << "Node does not exist";
+
+        }
+        else
+        {
+
+          Node * temp = next(myRoot, findNode(myRoot, val));
+
+          cout << "The value of the next node is " << temp->data;
+
+        }
+
+      }
+      if(ans == 7)
+      {
+        int low, high;
+        cout << "What are the two values?";
+        cin >> low >> high;
+
+
+        if(find(myRoot,low) & find(myRoot, high))
+        {
+
+          vector<int> vectDisp = rangeSearch(low, high, myRoot);
+          for(int x : vectDisp)
+          {
+
+            cout << x << " ";
+
+          }
+
+        }
+        else
+        {
+
+          cout << "One or two values does not exist";
+
+        }
+
+      }
+      if(ans = 8)
+      {
+
+        cout << "What is the target node?";
+        cin >> val;
+
+        if(!find(myRoot, val))
+        {
+
+          cout << "The node does not exist";
+
+        }
+        else
+        {
+
+          cout << "The height of the target node is " << computeHeight(findNode(myRoot, val));
+        }
+
       }
 
       // See if they want to insert more nodes.

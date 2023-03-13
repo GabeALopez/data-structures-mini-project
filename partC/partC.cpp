@@ -45,9 +45,11 @@ class JobQueue {
     //   start_times_[i] = next_free_time[next_worker];
     //   next_free_time[next_worker] += duration;
     // }
+
     assigned_workers_.resize(jobs_.size());
     start_times_.resize(jobs_.size());
     std::priority_queue<std::pair<long long, int>, std::vector<std::pair<long long, int>>, std::greater<std::pair<long long, int>>> pq;
+  
     for (int i = 0; i < num_workers_; ++i) {
         pq.push(std::make_pair(0, i));
     }

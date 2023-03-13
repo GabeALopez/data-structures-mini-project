@@ -38,6 +38,24 @@ int hasOnlyRightChild(Node * node);
 Node * findNode(Node * currentPtr, int value);
 Node * deleteNode(Node * root, int value);
 int menu();
+Node * next(Node * root, Node * N);
+Node * leftDescendant(Node * N);
+Node * rightAncestor(Node * root, Node * N);
+vector<int> rangeSearch(int low, int high, Node * root);
+int computeHeight(Node * targetNode);
+bool isUnbalanced(Node * root, Node * workingNode);
+int findLowestLeafHeight(Node * root, Node * workingNode);
+void rotateRight(Node * workingNode);
+void rotateLeft(Node * workingNode);
+int balanceFactor(Node * root, Node * targetNode);
+void adjustHeight(Node * targetNode);
+void rebalance(Node * targetNode);
+void rebalanceRight(Node * targetNode);
+void rebalanceLeft(Node * targetNode);
+void AVLInsert(Node * root, Node * workingNode);
+void AVLDelete(Node * root, Node * workingNode);
+
+
 
 void inorder(Node * currentPtr) {
   // Only traverse the node if it's not null.
@@ -550,7 +568,8 @@ void AVLDelete(Node * root, Node * workingNode)
 
 }
 
-int main() {
+int main() 
+{
     Node * myRoot = NULL, * tempNode;
     int done = 0, ans = 1, val, q6data;
     ans = menu();
@@ -607,4 +626,5 @@ int main() {
       ans = menu();
     }
     return 0;
+  }
 }

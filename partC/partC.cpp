@@ -46,6 +46,7 @@ class JobQueue {
     //   start_times_[i] = next_free_time[next_worker];
     //   next_free_time[next_worker] += duration;
     // }
+    
     //New Algorithm vvv
     assigned_workers_.resize(jobs_.size());
     start_times_.resize(jobs_.size());

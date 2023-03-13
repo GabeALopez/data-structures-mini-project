@@ -30,6 +30,7 @@ class JobQueue {
   }
 
   void AssignJobs() {
+    //Old Algorithm vvv
     // TODO: replace this code with a faster algorithm.
     // assigned_workers_.resize(jobs_.size());
     // start_times_.resize(jobs_.size());
@@ -45,23 +46,24 @@ class JobQueue {
     //   start_times_[i] = next_free_time[next_worker];
     //   next_free_time[next_worker] += duration;
     // }
+    
+    //New Algorithm vvv
     assigned_workers_.resize(jobs_.size());
     start_times_.resize(jobs_.size());
     std::priority_queue<std::pair<long long, int>, std::vector<std::pair<long long, int>>, std::greater<std::pair<long long, int>>> pq;
+  
     for (int i = 0; i < num_workers_; ++i) {
         pq.push(std::make_pair(0, i));
     }
 
     for (int i = 0; i < jobs_.size(); ++i) {
-        int duration = jobs_[i];
-
-    std::pair<long long, int> next_worker = pq.top();
-    pq.pop();
-
-    assigned_workers_[i] = next_worker.second;
-    start_times_[i] = next_worker.first;
-    next_worker.first += duration;
-    pq.push(next_worker);
+      int duration = jobs_[i];
+      std::pair<long long, int> next_worker = pq.top();
+      pq.pop();
+      assigned_workers_[i] = next_worker.second;
+      start_times_[i] = next_worker.first;
+      next_worker.first += duration;
+      pq.push(next_worker);
     }
   }
 

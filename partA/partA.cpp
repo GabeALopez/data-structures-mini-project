@@ -389,9 +389,7 @@ bool isUnbalanced(Node * root, Node * workingNode)
 //! This might go wrong
 int findLowestLeafHeight(Node * root, Node * workingNode)
 {
-
-  int heightHold;
-  
+ 
   if(!isLeaf(workingNode))
   {
 
@@ -564,8 +562,9 @@ int main() {
         cin >> val;
         tempNode = new Node(val); // Create the node.
         // Insert the value.
-        myRoot = insert(myRoot, tempNode);
-      }
+        myRoot = AVLInsert(myRoot, tempNode);
+        //myRoot = insert(myRoot, tempNode);
+      
       if (ans == 2) {
         cout << "What value would you like to delete?\n";
         cin >> val;

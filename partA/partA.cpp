@@ -304,9 +304,9 @@ int menu() {
   cout << "3. Search for an item in your tree.\n";
   cout << "4. Print the sum of the nodes. \n";
   cout << "5. Print out an inorder traversal.\n";
-  cout << "6. Print out next element of node with key x";
-  cout << "7. Print the elements between x and y";
-  cout << "8. Print the height of the tree with root x";
+  cout << "6. Print out next element of node with key x\n";
+  cout << "7. Print the elements between x and y\n";
+  cout << "8. Print the height of the tree with root x\n";
   cout << "9. Exit.\n";
   cin >> ans;
   return ans;
@@ -496,6 +496,54 @@ void rebalance(Node * targetNode)
 
   Node * parentNode = targetNode->parent;  
 
+  if(targetNode->left == NULL & targetNode->right == NULL)
+  {
+
+    rebalance(parentNode);
+
+  }  
+
+  if(targetNode->left == NULL)
+  {
+
+   
+    if(targetNode->right->right == NULL & targetNode->right->left == NULL)
+    {
+
+      rebalance(parentNode);
+
+    }
+    else
+    {
+
+
+      rebalanceRight(targetNode);
+
+
+    }
+
+   
+    
+
+  }
+  else if(targetNode->right == NULL)
+  {
+
+
+    if(targetNode->left->left == NULL & targetNode->left->right == NULL)
+    {
+
+      rebalance(parentNode);
+
+    }
+    else
+    {
+      rebalanceLeft(targetNode);
+    }
+    
+
+  }
+
   if(targetNode->left->height > targetNode->right->height + 1)
   {
 
@@ -559,7 +607,7 @@ void AVLInsert(Node * root, Node * workingNode)
 
   insert(root, workingNode);
   Node * temp = findNode(workingNode, workingNode->data);
-  rebalance(temp);
+  rebalance(root, temp);
 
 
 }
@@ -587,6 +635,7 @@ int main()
         // Insert the value.
         if(myRoot != NULL)
         {
+          tempNode->height--;
 
         AVLInsert(myRoot, tempNode);
 
@@ -675,7 +724,7 @@ int main()
         }
 
       }
-      if(ans = 8)
+      if (ans == 8)
       {
 
         cout << "What is the target node?";
@@ -698,6 +747,7 @@ int main()
       // See if they want to insert more nodes.
       ans = menu();
     }
-    return 0;
   }
+
+    return 0;
 }

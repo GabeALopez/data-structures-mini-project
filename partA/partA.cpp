@@ -544,7 +544,6 @@ void AVLInsert(Node * root, Node * workingNode)
 void AVLDelete(Node * root, Node * workingNode)
 {
 
-  deleteNode(root, workingNode->data);
   Node * temp = workingNode->parent; 
   rebalance(temp);
 
@@ -562,8 +561,18 @@ int main() {
         cin >> val;
         tempNode = new Node(val); // Create the node.
         // Insert the value.
-        myRoot = AVLInsert(myRoot, tempNode);
-        //myRoot = insert(myRoot, tempNode);
+        if(myRoot != NULL)
+        {
+
+        AVLInsert(myRoot, tempNode);
+
+        }
+        else
+        {
+
+        myRoot = insert(myRoot, tempNode);
+
+        }
       
       if (ans == 2) {
         cout << "What value would you like to delete?\n";
@@ -571,7 +580,10 @@ int main() {
         if (!find(myRoot, val))
           cout << "Sorry that value isn't in the tree to delete.\n";
         else {
-          myRoot = deleteNode(myRoot, val);
+          
+
+          //myRoot = deleteNode(myRoot, val);
+          AVLDelete(myRoot, deleteNode(myRoot,val));
         }
       }
       if (ans == 3) {
@@ -595,3 +607,4 @@ int main() {
       ans = menu();
     }
     return 0;
+}

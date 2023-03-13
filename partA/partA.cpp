@@ -607,7 +607,7 @@ void AVLInsert(Node * root, Node * workingNode)
 
   insert(root, workingNode);
   Node * temp = findNode(workingNode, workingNode->data);
-  rebalance(root, temp);
+  rebalance(temp);
 
 
 }

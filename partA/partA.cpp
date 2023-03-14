@@ -411,7 +411,7 @@ bool isUnbalanced(Node * root, Node * workingNode) {
   }
 
   
-  if(valHold < -1 || valHold > 1)
+  if(valHold <= -1 || valHold >= 1)
   return false;
   else
   return true;

@@ -319,7 +319,7 @@ Node * next(Node * root, Node * N)
   if(N->right != NULL)
   {
 
-    leftDescendant(N->right);
+    return leftDescendant(N->right);
 
   }
   else
@@ -336,7 +336,7 @@ Node * next(Node * root, Node * N)
 Node * leftDescendant(Node * N)
 {
 
-  if(N->left = NULL)
+  if(N->left == NULL)
   {
 
     return N;
@@ -354,7 +354,7 @@ Node * rightAncestor(Node * root, Node * N)
 
   if(N->data < parent(root,N)->data)
   {
-
+    return parent(root,N);
   }
   else
   {
@@ -392,15 +392,14 @@ int computeHeight(Node * targetNode)
 
 }
 
-bool isUnbalanced(Node * root, Node * workingNode)
-{
+bool isUnbalanced(Node * root, Node * workingNode) {
 
   int valHold = 0;
 
   if(isLeaf(workingNode->right))
-  valHold = findLowestLeafHeight(root, workingNode) - workingNode->right->height; 
+    valHold = findLowestLeafHeight(root, workingNode) - workingNode->right->height; 
   else
-  valHold = balanceFactor(root, workingNode);
+    valHold = balanceFactor(root, workingNode);
 
   if(valHold < -1 || valHold > 1)
   return false;
@@ -500,7 +499,7 @@ void rebalance(Node * root, Node * targetNode)
   if(isUnbalanced(root, targetNode))
   {
 
-    rebalance(parentNode);
+    rebalance(root, parentNode);
 
   }
 
@@ -512,7 +511,7 @@ void rebalance(Node * root, Node * targetNode)
     W is going to be used to look for other cases
 
   */
-  if(parentNode->left == targetNode & targetNode->left)
+  if(parentNode->left == targetNode && targetNode->left)
   {
 
   }
@@ -718,7 +717,7 @@ void AVLDelete(Node * root, Node * workingNode)
 {
 
   Node * temp = workingNode->parent; 
-  rebalance(temp);
+  rebalance(root, temp);
 
 
 }

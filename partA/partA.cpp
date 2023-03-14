@@ -735,6 +735,53 @@ int main()
     int done = 0, ans = 1, val, q6data;
     ans = menu();
     while (ans != 9) {
+      switch(ans) {
+        case 1:
+          // Get value to insert.
+          cout << "What value would you like to insert?";
+          cin >> val;
+          tempNode = new Node(val); // Create the node.
+          tempNode->height = 0;
+          // Insert the value.
+          if(myRoot != NULL){
+            AVLInsert(myRoot, tempNode);
+          }
+          else {
+            myRoot = insert(myRoot, tempNode);
+          }
+          break;
+        case 2:
+          cout << "What value would you like to delete?\n";
+          cin >> val;
+          if (!find(myRoot, val)) {
+            cout << "Sorry that value isn't in the tree to delete.\n";
+          }
+          else {
+            //myRoot = deleteNode(myRoot, val);
+            AVLDelete(myRoot, deleteNode(myRoot,val));
+          }
+          break;
+        case 3:
+          cout << "What value would you like to search for?\n";
+          cin >> val;
+          if (find(myRoot, val)) {
+            cout << " Found" << val << "in the tree.\n";
+          }
+          else {
+            cout << " Did not find %d in the tree.\n";
+          }
+          break;
+        case 4:
+          cout << "The sum of the nodes in your tree is" << add(myRoot) << "\n";
+          break;
+        case 5:
+          // Print the resulting tree.
+          cout << "Here is an inorder traversal of your tree: ";
+          inorder(myRoot);
+          cout << "\n";
+          break;
+      };
+      /*
       if (ans == 1) {
         // Get value to insert.
         cout << "What value would you like to insert?";
@@ -851,6 +898,10 @@ int main()
         }
 
       }
+      if(ans == 99) {
+        std::cout << "test" << std::endl;
+      }
+      */
 
       // See if they want to insert more nodes.
       ans = menu();

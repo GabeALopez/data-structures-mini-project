@@ -405,13 +405,15 @@ bool isUnbalanced(Node * root, Node * workingNode) {
   }
   else if(workingNode->right == NULL && workingNode->left != NULL)
     valHold = findLowestLeafHeight(root, workingNode) - 0; 
+  else if(workingNode->left == NULL && workingNode->right != NULL)
+    valHold = findLowestLeafHeight(root,workingNode) - 0; 
   else
   {
     valHold = balanceFactor(root, workingNode);
   }
 
   
-  if(valHold <= -1 || valHold >= 1)
+  if(valHold < -1 || valHold > 1)
   return false;
   else
   return true;
@@ -540,6 +542,7 @@ void rebalance(Node * root, Node * targetNode)
       yNode->parent = zNode->parent;
       yNode->right = zNode;
       zNode->parent = yNode;
+      zNode->left = NULL;
 
 
     }
@@ -549,6 +552,7 @@ void rebalance(Node * root, Node * targetNode)
       yNode->parent = zNode->parent;
       yNode->left = zNode;
       zNode->parent = yNode;
+      zNode->right = NULL;
 
     }
 
@@ -569,8 +573,10 @@ void rebalance(Node * root, Node * targetNode)
     {
 
       yNode->parent = zNode->parent;
+      zNode->left = yNode->right;
       yNode->right = zNode;
       zNode->parent = yNode;
+      
 
       yNode->height--;
       xNode->height++;
@@ -582,6 +588,12 @@ void rebalance(Node * root, Node * targetNode)
     {
 
       rotateLeft(zNode);
+
+      //Rotate right
+      yNode->parent = zNode->parent;
+      yNode->right = zNode;
+      zNode->parent = yNode;
+
       yNode->height++;
       zNode->height++;
       xNode->height--;
@@ -603,6 +615,11 @@ void rebalance(Node * root, Node * targetNode)
     {
 
       rotateRight(zNode); 
+
+      //Rotate left
+      yNode->parent = zNode->parent;
+      yNode->left = zNode;
+      zNode->parent = yNode;
 
       yNode->height++;
       zNode->height++;

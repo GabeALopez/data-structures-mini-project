@@ -782,45 +782,6 @@ int main()
           inorder(myRoot);
           cout << "\n";
           break;
-        case 6:
-          cout << "What is the target node?";
-          cin >> val;
-
-          if(!find(myRoot, val)) {
-            cout << "Node does not exist";
-          }
-          else {
-            Node * temp = next(myRoot, findNode(myRoot, val));
-            cout << "The value of the next node is " << temp->data;
-          }
-          break;
-        case 7:
-          int low, high;
-          cout << "What are the two values?";
-          cin >> low >> high;
-
-          if(find(myRoot,low) & find(myRoot, high)) {
-            vector<int> vectDisp = rangeSearch(low, high, myRoot);
-            for(int x : vectDisp) {
-              cout << x << " ";
-            }
-          }
-          else {
-            cout << "One or two values does not exist";
-          }
-          break;
-        case 8:
-          cout << "What is the target node?";
-          cin >> val;
-
-          if(!find(myRoot, val)) {
-            cout << "The node does not exist";
-          }
-          else {
-            cout << "The height of the target node is " << computeHeight(findNode(myRoot, val));
-          }
-        default:
-          std::cout << "Invalid Input" << std::endl;
       };
       /*
       if (ans == 1) {
@@ -947,7 +908,8 @@ int main()
       // See if they want to insert more nodes.
       ans = menu();
     }
-  
+  }
 
     return 0;
+ 
 }

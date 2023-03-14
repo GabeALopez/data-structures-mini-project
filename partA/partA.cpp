@@ -525,7 +525,7 @@ void rebalance(Node * root, Node * targetNode)
   Node * yNode = new Node();
   Node * zNode = new Node();
 
-  if(targetNode->parent->parent== NULL)
+  if(targetNode->parent->parent->parent == NULL)
   {
  
 
@@ -553,7 +553,6 @@ void rebalance(Node * root, Node * targetNode)
     }
 
     yNode->height--;
-    xNode->height++;
     zNode->height++;
 
 

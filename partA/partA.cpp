@@ -459,6 +459,8 @@ void rotateRight(Node * workingNode)
     Node * leftChildNode = workingNode->left;
     Node * rLChildNode = leftChildNode->right;
 
+
+
     leftChildNode->parent = parentNode;    
     parentNode->left = leftChildNode;
     workingNode->parent = leftChildNode;
@@ -507,7 +509,7 @@ void rebalance(Node * root, Node * targetNode)
 
   if(isUnbalanced(root, targetNode))
   {
-
+    if(parentNode != NULL)
     rebalance(root, parentNode);
 
   }
@@ -525,13 +527,79 @@ void rebalance(Node * root, Node * targetNode)
 
   if(targetNode->parent->parent->parent == NULL)
   {
+ 
 
     wNode = targetNode;
     xNode = targetNode;
     yNode = targetNode->parent;
     zNode = targetNode->parent->parent;
 
+    if(zNode->left == yNode && yNode->left == xNode)
+    {
+
+      yNode->parent = zNode->parent;
+      yNode->right = zNode;
+      zNode->parent = yNode;
+
+
+    }
+    else if(zNode->right == yNode && yNode->right == xNode)
+    {
+
+      yNode->parent = zNode->parent;
+      yNode->left = zNode;
+      zNode->parent = yNode;
+
+    }
+
+
+
   }
+  else
+  {
+
+    wNode = targetNode;
+    xNode = targetNode->parent;
+    yNode = targetNode->parent->parent;
+    zNode = targetNode->parent->parent->parent;
+
+    if(zNode->left == yNode && yNode->left == xNode)
+    {
+
+      yNode->parent = zNode->parent;
+      yNode->right = zNode;
+      zNode->parent = yNode;
+
+
+    }
+    else if(zNode->left == yNode && yNode->right == xNode)
+    {
+
+      rotateLeft(zNode);
+
+    }
+    else if(zNode->right == yNode && yNode->right == xNode)
+    {
+
+      yNode->parent = zNode->parent;
+      yNode->left = zNode;
+      zNode->parent = yNode;
+
+    }
+    else if(zNode->right == yNode && yNode->left == xNode)
+    {
+
+      rotateRight(zNode); 
+
+    }
+
+  }
+
+  
+
+  adjustHeight(targetNode);
+
+
 
   /*
   
@@ -541,10 +609,7 @@ void rebalance(Node * root, Node * targetNode)
     W is going to be used to look for other cases
 
   */
-  if(parentNode->left == targetNode && targetNode->left)
-  {
-
-  }
+  
 
 
   /*
@@ -621,7 +686,8 @@ void rebalance(Node * root, Node * targetNode)
   */
   
 
-}
+} 
+
 
 bool avlInitialCheck(Node * targetNode)
 {

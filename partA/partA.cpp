@@ -525,7 +525,7 @@ void rebalance(Node * root, Node * targetNode)
   Node * yNode = new Node();
   Node * zNode = new Node();
 
-  if(targetNode->parent->parent->parent == NULL)
+  if(targetNode->parent->parent== NULL)
   {
  
 
@@ -552,6 +552,9 @@ void rebalance(Node * root, Node * targetNode)
 
     }
 
+    yNode->height--;
+    xNode->height++;
+    zNode->height++;
 
 
   }
@@ -570,12 +573,19 @@ void rebalance(Node * root, Node * targetNode)
       yNode->right = zNode;
       zNode->parent = yNode;
 
+      yNode->height--;
+      xNode->height++;
+      zNode->height++;
+
 
     }
     else if(zNode->left == yNode && yNode->right == xNode)
     {
 
       rotateLeft(zNode);
+      yNode->height++;
+      zNode->height++;
+      xNode->height--;
 
     }
     else if(zNode->right == yNode && yNode->right == xNode)
@@ -585,19 +595,28 @@ void rebalance(Node * root, Node * targetNode)
       yNode->left = zNode;
       zNode->parent = yNode;
 
+      yNode->height--;
+      xNode->height++;
+      zNode->height++;
+
     }
     else if(zNode->right == yNode && yNode->left == xNode)
     {
 
       rotateRight(zNode); 
 
+      yNode->height++;
+      zNode->height++;
+      xNode->height--;
+
     }
+
+
 
   }
 
   
 
-  adjustHeight(targetNode);
 
 
 

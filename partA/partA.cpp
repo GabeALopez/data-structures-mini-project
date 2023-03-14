@@ -528,8 +528,6 @@ void rebalance(Node * root, Node * targetNode)
   Node * w,x,y,z;
 
 
-
-
   /*
   
     Have to redo whole function
@@ -802,25 +800,6 @@ int main()
           cout << "Here is an inorder traversal of your tree: ";
           inorder(myRoot);
           cout << "\n";
-          break;
-        case 6:
-          cout << "What is the target node?";
-          cin >> val;
-
-          if(!find(myRoot, val))
-          {
-
-            cout << "Node does not exist";
-
-          }
-          else
-          {
-
-            Node * temp = next(myRoot, findNode(myRoot, val));
-
-            cout << "The value of the next node is " << temp->data;
-
-          }
           break;
       };
       /*

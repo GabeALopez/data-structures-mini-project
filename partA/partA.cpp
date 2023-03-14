@@ -197,19 +197,19 @@ int hasOnlyRightChild(Node * node) {
 
 // Returns a pointer to a node that stores value in it in the subtree
 Node * findNode(Node * currentPtr, int value) {
-  // Check if there are nodes in the tree.
-  if (currentPtr != NULL) {
+  if(currentPtr == NULL){
+    return NULL;
+  }
     // Found the value at the root.
-    if (currentPtr -> data == value)
-      return currentPtr;
-    // Search to the left.
-    if (value < currentPtr -> data)
-      return findNode(currentPtr -> left, value);
-    // Or search to the right.
-    else
-      return findNode(currentPtr -> right, value);
-  } else
-    return NULL; // No node found.
+  if (currentPtr -> data == value) {
+    return currentPtr;
+  }
+  if (value < currentPtr -> data) {
+    return findNode(currentPtr -> left, value);
+  }
+  else {
+    return findNode(currentPtr -> right, value);
+  }
 }
 
 
@@ -352,7 +352,9 @@ Node * leftDescendant(Node * N)
 
 Node * rightAncestor(Node * root, Node * N)
 {
-
+  if(parent(root,N) == NULL){
+    return NULL;
+  }
   if(N->data < parent(root,N)->data)
   {
     return parent(root,N);

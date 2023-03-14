@@ -54,6 +54,7 @@ void rebalanceRight(Node * targetNode);
 void rebalanceLeft(Node * targetNode);
 void AVLInsert(Node * root, Node * workingNode);
 void AVLDelete(Node * root, Node * workingNode);
+bool avlInitialCheck(Node * targetNode);
 
 
 
@@ -70,6 +71,7 @@ void inorder(Node * currentPtr) {
 Node * insert(Node * root, Node * element) {
   // Inserting into an empty tree.
   if (root == NULL) {
+    element->height = 0;
     return element;
   } else {
     // element should be inserted to the right.
@@ -91,7 +93,6 @@ Node * insert(Node * root, Node * element) {
     }
     // element should be inserted to the left.
     else {
-      element->height++;
       // There is a left subtree to insert the node.
       if (root -> left != NULL)
         {
@@ -496,53 +497,23 @@ void rebalance(Node * targetNode)
 
   Node * parentNode = targetNode->parent;  
 
-  if(targetNode->left == NULL & targetNode->right == NULL)
+  /*
+  if(parentNode == NULL)
   {
 
-    rebalance(parentNode);
-
-  }  
-
-  if(targetNode->left == NULL)
-  {
-
-   
-    if(targetNode->right->right == NULL & targetNode->right->left == NULL)
-    {
-
-      rebalance(parentNode);
-
-    }
-    else
-    {
-
-
-      rebalanceRight(targetNode);
-
-
-    }
-
-   
-    
+    return;
 
   }
-  else if(targetNode->right == NULL)
+  */
+
+  if(avlInitialCheck(targetNode))
   {
 
+    return;
 
-    if(targetNode->left->left == NULL & targetNode->left->right == NULL)
-    {
+  } 
 
-      rebalance(parentNode);
-
-    }
-    else
-    {
-      rebalanceLeft(targetNode);
-    }
-    
-
-  }
+  
 
   if(targetNode->left->height > targetNode->right->height + 1)
   {
@@ -569,12 +540,89 @@ void rebalance(Node * targetNode)
 
 }
 
+bool avlInitialCheck(Node * targetNode)
+{
+
+if(targetNode->left == NULL & targetNode->right == NULL)
+  {
+
+    avlInitialCheck(targetNode->parent);
+
+  }  
+
+  if(targetNode->left == NULL)
+  {
+
+    if(targetNode->left == NULL & targetNode->right == NULL)
+    {
+      return true;
+    }
+
+   
+    if(targetNode->right->right != NULL || targetNode->right->left != NULL)
+    {
+
+      rebalanceLeft(targetNode);
+
+
+    }
+
+   
+    
+
+  }
+  else if(targetNode->right == NULL)
+  {
+
+
+    if(targetNode->left->left != NULL || targetNode->left->right != NULL)
+    {
+
+      rebalanceRight(targetNode);
+
+    }
+    
+
+  }
+
+  if(targetNode->parent != NULL)
+  {
+
+    avlInitialCheck(targetNode->parent);
+
+  }
+  
+  return true;
+
+}
+
 void rebalanceRight(Node * targetNode)
 {
 
   Node * temp = targetNode->left;
+  int leftHeight, rightHeight;
 
-  if(temp->right->height > temp->left->height)
+  if(temp->right == NULL)
+  {
+
+    rightHeight = 0;
+    leftHeight = temp->left->height;
+
+  }
+  else if(temp->left == NULL)
+  {
+
+    leftHeight = 0;
+    rightHeight = temp->right->height;
+
+  }
+  else
+  {
+    leftHeight = temp->left->height;
+    rightHeight = temp->right->height;
+  }
+
+  if(rightHeight > leftHeight)
   {
     rotateLeft(temp);
     adjustHeight(temp);
@@ -632,10 +680,10 @@ int main()
         cout << "What value would you like to insert?";
         cin >> val;
         tempNode = new Node(val); // Create the node.
+        tempNode->height = 0;
         // Insert the value.
         if(myRoot != NULL)
         {
-          tempNode->height--;
 
         AVLInsert(myRoot, tempNode);
 

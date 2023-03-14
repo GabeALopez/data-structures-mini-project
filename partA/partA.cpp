@@ -396,7 +396,14 @@ bool isUnbalanced(Node * root, Node * workingNode) {
 
   int valHold = 0;
 
-  if(isLeaf(workingNode->right))
+  if(isLeaf(workingNode))
+  {
+
+    valHold = workingNode->height;
+
+  }
+
+  if(isLeaf(workingNode))
     valHold = findLowestLeafHeight(root, workingNode) - workingNode->right->height; 
   else
     valHold = balanceFactor(root, workingNode);

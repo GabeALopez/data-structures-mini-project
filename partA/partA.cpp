@@ -402,8 +402,8 @@ bool isUnbalanced(Node * root, Node * workingNode) {
     valHold = workingNode->height;
 
   }
-  else if(workingNode->right->right == NULL && workingNode->right->left == NULL)
-    valHold = findLowestLeafHeight(root, workingNode) - workingNode->right->height; 
+  else if(workingNode->right == NULL && workingNode->left != NULL)
+    valHold = findLowestLeafHeight(root, workingNode) - 0; 
   else
   {
     valHold = balanceFactor(root, workingNode);
@@ -508,10 +508,25 @@ void rebalance(Node * root, Node * targetNode)
 
   if(isUnbalanced(root, targetNode))
   {
+    if(parentNode != NULL)
+    {
 
-    rebalance(root, parentNode);
+      rebalance(root, parentNode);
+
+    }
+
 
   }
+
+  if(isUnbalanced(root, targetNode))
+  {
+
+    return;
+
+  }
+
+
+
 
   /*
   
@@ -521,11 +536,12 @@ void rebalance(Node * root, Node * targetNode)
     W is going to be used to look for other cases
 
   */
+ /*
   if(parentNode->left == targetNode && targetNode->left)
   {
 
   }
-
+  */
 
   /*
   int rightHeight, leftHeight;
@@ -658,6 +674,8 @@ if(targetNode->left == NULL & targetNode->right == NULL)
   return true;
 
 }
+
+
 
 void rebalanceRight(Node * targetNode)
 {
@@ -909,7 +927,7 @@ int main()
       // See if they want to insert more nodes.
       ans = menu();
     }
-  }
+  
 
     return 0;
  

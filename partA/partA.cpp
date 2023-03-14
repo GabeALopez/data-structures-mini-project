@@ -734,13 +734,14 @@ void AVLDelete(Node * root, Node * workingNode)
 int main() 
 {
     Node * myRoot = NULL, * tempNode;
-    int done = 0, ans = 1, val, q6data;
+    int done = 0, ans = 1, val, val2, q6data;
+    int low, high, sum;
     ans = menu();
-    while (ans != 10) {
+    while (ans != 0) {
       switch(ans) {
         case 1:
           // Get value to insert.
-          cout << "What value would you like to insert?";
+          cout << "What value would you like to insert?\n";
           cin >> val;
           tempNode = new Node(val); // Create the node.
           tempNode->height = 0;
@@ -751,6 +752,7 @@ int main()
           else {
             myRoot = insert(myRoot, tempNode);
           }
+          cout << "Inserted " << val << endl;
           break;
         case 2:
           cout << "What value would you like to delete?\n";
@@ -776,15 +778,8 @@ int main()
         case 4:
           cout << "The sum of the nodes in your tree is" << add(myRoot) << "\n";
           break;
-        case 5:
-          // Print the resulting tree.
-          cout << "Here is an inorder traversal of your tree: ";
-          inorder(myRoot);
-          cout << "\n";
-          break;
-          
-        case 6:
-          cout << "What is the target node?";
+        case 5:          
+          cout << "What is the target node?\n";
           cin >> val;
 
           if(!find(myRoot, val)) {
@@ -795,7 +790,7 @@ int main()
             cout << "The value of the next node is " << temp->data;
           }
           break;
-        case 7:
+        case 6:
           int low, high;
           cout << "What are the two values?" << std::endl;
           cin >> low >> high;
@@ -810,7 +805,7 @@ int main()
             cout << "One or two values does not exist" << std::endl;
           }
           break;
-        case 8:
+        case 7:
           cout << "What is the target node?\n";
           cin >> val;
 
@@ -821,10 +816,30 @@ int main()
             cout << "The height of the target node is " << computeHeight(findNode(myRoot, val)) << std::endl;
           }
           break;
+        case 8:
+          cout << "What are the two values?" << std::endl;
+          cin >> low >> high;
+
+          if(find(myRoot,low) & find(myRoot, high)) {
+            vector<int> vectDisp = rangeSearch(low, high, myRoot);
+            for(int x : vectDisp) {
+              sum += x;
+            }
+            cout << "Sum between " << low << " and " << high << " is " << sum << endl;
+          }
+          else {
+            cout << "One or two values does not exist" << std::endl;
+          }
+          break;
         case 9:
-          // put case 5 here
-        case 10:
-         std::cout << "exit" << std::endl;
+          // Print the resulting tree.
+          cout << "Here is an inorder traversal of your tree: ";
+          inorder(myRoot);
+          cout << "\n";
+          break;
+        case 0:
+          std::cout << "exit" << std::endl;
+          break;
         default:
           std::cout << "Invalid Input" << std::endl;
           break;

@@ -782,6 +782,7 @@ int main()
           inorder(myRoot);
           cout << "\n";
           break;
+          
         case 6:
           cout << "What is the target node?";
           cin >> val;
@@ -953,7 +954,6 @@ int main()
       // See if they want to insert more nodes.
       ans = menu();
     }
-  
 
     return 0;
 }

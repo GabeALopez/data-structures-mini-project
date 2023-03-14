@@ -304,12 +304,11 @@ int menu() {
   cout << "2. Delete an item from your tree.\n";
   cout << "3. Search for an item in your tree.\n";
   cout << "4. Print the sum of the nodes. \n";
-  cout << "5. Print the next element of the node with key x.\n";
-  cout << "6. Print the elements between x, and y\n";
-  cout << "7. Print the height of the tree with root x\n";
-  cout << "8. Print the sum of the list of elements between x, and y\n";
-  cout << "9. Print out an in-order traversal\n";
-  cout << "0. Exit.\n";
+  cout << "5. Print out an inorder traversal.\n";
+  cout << "6. Print out next element of node with key x\n";
+  cout << "7. Print the elements between x and y\n";
+  cout << "8. Print the height of the tree with root x\n";
+  cout << "9. Exit.\n";
   cin >> ans;
   return ans;
 }
@@ -441,6 +440,8 @@ int findLowestLeafHeight(Node * root, Node * workingNode)
     }
     else
     return workingNode->height;
+    //fjasdkfjlakdsjfa
+
   }
 
 }
@@ -524,7 +525,7 @@ void rebalance(Node * root, Node * targetNode)
 
   }
 
-
+  
 
 
   /*
@@ -752,14 +753,13 @@ void AVLDelete(Node * root, Node * workingNode)
 int main() 
 {
     Node * myRoot = NULL, * tempNode;
-    int done = 0, ans = 1, val, val2, q6data;
-    int low, high, sum;
+    int done = 0, ans = 1, val, q6data;
     ans = menu();
-    while (ans != 0) {
+    while (ans != 9) {
       switch(ans) {
         case 1:
           // Get value to insert.
-          cout << "What value would you like to insert?\n";
+          cout << "What value would you like to insert?";
           cin >> val;
           tempNode = new Node(val); // Create the node.
           tempNode->height = 0;
@@ -770,7 +770,6 @@ int main()
           else {
             myRoot = insert(myRoot, tempNode);
           }
-          cout << "Inserted " << val << endl;
           break;
         case 2:
           cout << "What value would you like to delete?\n";
@@ -796,70 +795,11 @@ int main()
         case 4:
           cout << "The sum of the nodes in your tree is" << add(myRoot) << "\n";
           break;
-        case 5:          
-          cout << "What is the target node?\n";
-          cin >> val;
-
-          if(!find(myRoot, val)) {
-            cout << "Node does not exist";
-          }
-          else {
-            Node * temp = next(myRoot, findNode(myRoot, val));
-            cout << "The value of the next node is " << temp->data;
-          }
-          break;
-        case 6:
-          int low, high;
-          cout << "What are the two values?" << std::endl;
-          cin >> low >> high;
-
-          if(find(myRoot,low) & find(myRoot, high)) {
-            vector<int> vectDisp = rangeSearch(low, high, myRoot);
-            for(int x : vectDisp) {
-              cout << x << " ";
-            }
-          }
-          else {
-            cout << "One or two values does not exist" << std::endl;
-          }
-          break;
-        case 7:
-          cout << "What is the target node?\n";
-          cin >> val;
-
-          if(!find(myRoot, val)) {
-            cout << "The node does not exist" << std::endl;
-          }
-          else {
-            cout << "The height of the target node is " << computeHeight(findNode(myRoot, val)) << std::endl;
-          }
-          break;
-        case 8:
-          cout << "What are the two values?" << std::endl;
-          cin >> low >> high;
-
-          if(find(myRoot,low) & find(myRoot, high)) {
-            vector<int> vectDisp = rangeSearch(low, high, myRoot);
-            for(int x : vectDisp) {
-              sum += x;
-            }
-            cout << "Sum between " << low << " and " << high << " is " << sum << endl;
-          }
-          else {
-            cout << "One or two values does not exist" << std::endl;
-          }
-          break;
-        case 9:
+        case 5:
           // Print the resulting tree.
           cout << "Here is an inorder traversal of your tree: ";
           inorder(myRoot);
           cout << "\n";
-          break;
-        case 0:
-          std::cout << "exit" << std::endl;
-          break;
-        default:
-          std::cout << "Invalid Input" << std::endl;
           break;
       };
       /*
@@ -987,10 +927,8 @@ int main()
       // See if they want to insert more nodes.
       ans = menu();
     }
-<<<<<<< HEAD
   
-=======
->>>>>>> cdbf435e942a331162f77d52c791c4cccb5c4214
 
     return 0;
+ 
 }

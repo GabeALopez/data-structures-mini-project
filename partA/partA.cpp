@@ -403,8 +403,8 @@ bool isUnbalanced(Node * root, Node * workingNode) {
     valHold = workingNode->height;
 
   }
-  else if(workingNode->right->right == NULL && workingNode->right->left == NULL)
-    valHold = findLowestLeafHeight(root, workingNode) - workingNode->right->height; 
+  else if(workingNode->right == NULL && workingNode->left != NULL)
+    valHold = findLowestLeafHeight(root, workingNode) - 0; 
   else
   {
     valHold = balanceFactor(root, workingNode);
@@ -509,6 +509,27 @@ void rebalance(Node * root, Node * targetNode)
   {
 
     rebalance(root, parentNode);
+
+  }
+
+  if(isUnbalanced(root, targetNode))
+  {
+    return;
+
+  }
+
+  Node * wNode = new Node();
+  Node * xNode = new Node();
+  Node * yNode = new Node();
+  Node * zNode = new Node();
+
+  if(targetNode->parent->parent->parent == NULL)
+  {
+
+    wNode = targetNode;
+    xNode = targetNode;
+    yNode = targetNode->parent;
+    zNode = targetNode->parent->parent;
 
   }
 

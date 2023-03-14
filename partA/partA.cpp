@@ -304,11 +304,12 @@ int menu() {
   cout << "2. Delete an item from your tree.\n";
   cout << "3. Search for an item in your tree.\n";
   cout << "4. Print the sum of the nodes. \n";
-  cout << "5. Print out an inorder traversal.\n";
-  cout << "6. Print out next element of node with key x\n";
-  cout << "7. Print the elements between x and y\n";
-  cout << "8. Print the height of the tree with root x\n";
-  cout << "9. Exit.\n";
+  cout << "5. Print the next element of the node with key x.\n";
+  cout << "6. Print the elements between x, and y\n";
+  cout << "7. Print the height of the tree with root x\n";
+  cout << "8. Print the sum of the list of elements between x, and y\n";
+  cout << "9. Print out an in-order traversal\n";
+  cout << "0. Exit.\n";
   cin >> ans;
   return ans;
 }
@@ -440,8 +441,6 @@ int findLowestLeafHeight(Node * root, Node * workingNode)
     }
     else
     return workingNode->height;
-    //fjasdkfjlakdsjfa
-
   }
 
 }
@@ -737,7 +736,7 @@ int main()
     Node * myRoot = NULL, * tempNode;
     int done = 0, ans = 1, val, q6data;
     ans = menu();
-    while (ans != 9) {
+    while (ans != 10) {
       switch(ans) {
         case 1:
           // Get value to insert.
@@ -797,7 +796,7 @@ int main()
           break;
         case 7:
           int low, high;
-          cout << "What are the two values?";
+          cout << "What are the two values?" << std::endl;
           cin >> low >> high;
 
           if(find(myRoot,low) & find(myRoot, high)) {
@@ -807,21 +806,27 @@ int main()
             }
           }
           else {
-            cout << "One or two values does not exist";
+            cout << "One or two values does not exist" << std::endl;
           }
           break;
         case 8:
-          cout << "What is the target node?";
+          cout << "What is the target node?\n";
           cin >> val;
 
           if(!find(myRoot, val)) {
-            cout << "The node does not exist";
+            cout << "The node does not exist" << std::endl;
           }
           else {
-            cout << "The height of the target node is " << computeHeight(findNode(myRoot, val));
+            cout << "The height of the target node is " << computeHeight(findNode(myRoot, val)) << std::endl;
           }
+          break;
+        case 9:
+          // put case 5 here
+        case 10:
+         std::cout << "exit" << std::endl;
         default:
           std::cout << "Invalid Input" << std::endl;
+          break;
       };
       /*
       if (ans == 1) {

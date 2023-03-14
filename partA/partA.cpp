@@ -492,19 +492,70 @@ void adjustHeight(Node * targetNode)
 
 }
 
-void rebalance(Node * targetNode)
+void rebalance(Node * root, Node * targetNode)
 {
 
   Node * parentNode = targetNode->parent;  
 
+  if(isUnbalanced(root, targetNode))
+  {
+
+    rebalance(parentNode);
+
+  }
+
   /*
+  
+    Have to redo whole function
+    Look at balance rotations powerpoint'
+    Look at X, Y, Z, and W
+    W is going to be used to look for other cases
+
+  */
+  if(parentNode->left == targetNode & targetNode->left)
+  {
+
+  }
+
+
+  /*
+  int rightHeight, leftHeight;
+
+  if(targetNode->right == NULL & targetNode->left == NULL)
+  {
+
+    rightHeight = 0;
+    leftHeight = 0;
+
+  }
+  else if(targetNode->right == NULL)
+  {
+
+    rightHeight = 0;
+    leftHeight = targetNode->left->height;
+  }
+  else if(targetNode->left == NULL)
+  {
+
+    leftHeight = 0;
+    rightHeight = targetNode->right->height;
+
+  }
+  else
+  {
+
+    leftHeight = targetNode->left->height;
+    rightHeight = targetNode->right->height;
+
+  }
+
+  
   if(parentNode == NULL)
   {
 
     return;
 
   }
-  */
 
   if(avlInitialCheck(targetNode))
   {
@@ -513,15 +564,17 @@ void rebalance(Node * targetNode)
 
   } 
 
+
+  int factor = balanceFactor(root, targetNode); 
   
 
-  if(targetNode->left->height > targetNode->right->height + 1)
+  if(leftHeight > rightHeight + 1)
   {
 
     rebalanceRight(targetNode);
 
   }
-  else if(targetNode->right->height > targetNode->left->height + 1)
+  else if(rightHeight > leftHeight + 1)
   {
 
     rebalanceLeft(targetNode);
@@ -536,6 +589,7 @@ void rebalance(Node * targetNode)
     rebalance(parentNode);
 
   }
+  */
   
 
 }
@@ -655,7 +709,7 @@ void AVLInsert(Node * root, Node * workingNode)
 
   insert(root, workingNode);
   Node * temp = findNode(workingNode, workingNode->data);
-  rebalance(temp);
+  rebalance(root, temp);
 
 
 }

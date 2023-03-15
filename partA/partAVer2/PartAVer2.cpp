@@ -73,16 +73,15 @@ Node * insert(Node * root, Node * element) {
     element->height = 0;
     return element;
   } else {
-    // element should be inserted to the right.
+    // element inserted to the right.
     element->height++;
     //* element->parent = parent(root, element);
     if (element->key > root->key) {
-      // There is a right subtree to insert the node.
       if (root->right != NULL)
       {
         root->right = insert(root->right, element);
       }
-      // Place the node directly to the right of root.
+      // Place the node to the right of root.
       else
       {
         root->right = element;
@@ -90,19 +89,18 @@ Node * insert(Node * root, Node * element) {
 
       }
     }
-    // element should be inserted to the left.
+    // element inserted to the left.
     else {
-      // There is a left subtree to insert the node.
       if (root->left != NULL)
         {
           root->left = insert(root->left, element);
         }
-      // Place the node directly to the left of root.
+      //Place the node to the left of root.
       else
         root->left = element;
         element->parent = parent(root, element);
     }
-    // Return the root pointer of the updated tree.
+    //Return the root pointer of the tree.
     return root;
   }
 }

@@ -429,6 +429,11 @@ int findLowestLeafHeight(Node * root, Node * workingNode)
  
   if(!isLeaf(workingNode))
   {
+    if(workingNode->left == NULL)
+    {
+      return workingNode->right->height;
+
+    }
 
     return findLowestLeafHeight(root, workingNode->left);
 
@@ -560,7 +565,7 @@ void rebalance(Node * root, Node * targetNode)
 
     yNode->height--;
     zNode->height++;
-
+    xNode->height--;
 
   }
   else
@@ -649,78 +654,7 @@ void rebalance(Node * root, Node * targetNode)
   
 
 
-  /*
-  int rightHeight, leftHeight;
-
-  if(targetNode->right == NULL & targetNode->left == NULL)
-  {
-
-    rightHeight = 0;
-    leftHeight = 0;
-
-  }
-  else if(targetNode->right == NULL)
-  {
-
-    rightHeight = 0;
-    leftHeight = targetNode->left->height;
-  }
-  else if(targetNode->left == NULL)
-  {
-
-    leftHeight = 0;
-    rightHeight = targetNode->right->height;
-
-  }
-  else
-  {
-
-    leftHeight = targetNode->left->height;
-    rightHeight = targetNode->right->height;
-
-  }
-
   
-  if(parentNode == NULL)
-  {
-
-    return;
-
-  }
-
-  if(avlInitialCheck(targetNode))
-  {
-
-    return;
-
-  } 
-
-
-  int factor = balanceFactor(root, targetNode); 
-  
-
-  if(leftHeight > rightHeight + 1)
-  {
-
-    rebalanceRight(targetNode);
-
-  }
-  else if(rightHeight > leftHeight + 1)
-  {
-
-    rebalanceLeft(targetNode);
-
-  }
-
-  adjustHeight(targetNode);
-
-  if(parentNode != NULL)
-  {
-
-    rebalance(parentNode);
-
-  }
-  */
   
 
 } 

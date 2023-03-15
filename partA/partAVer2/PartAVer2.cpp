@@ -1,6 +1,5 @@
 // C++ program to insert a node in AVL tree 
 #include <iostream>
-
 #include <vector>
 
 using namespace std;
@@ -51,12 +50,13 @@ Node * rightRotate(Node * y);
 Node * leftRotate(Node * x);
 int getBalance(Node * N);
 void preOrder(Node * root);
-vector < int > rangeSearch(int low, int high, Node * root);
+vector<int> rangeSearch(int low, int high, Node * root);
 int computeHeight(Node * targetNode);
 Node * next(Node * root, Node * N);
 Node * leftDescendant(Node * N);
 Node * rightAncestor(Node * root, Node * N);
-Node * avlDelete(Node * root, int key);
+Node* avlDelete(Node* root, int key);
+
 
 void inorder(Node * currentPtr) {
   // Only traverse the node if it's not null.
@@ -70,34 +70,37 @@ void inorder(Node * currentPtr) {
 Node * insert(Node * root, Node * element) {
   // Inserting into an empty tree.
   if (root == NULL) {
-    element -> height = 0;
+    element->height = 0;
     return element;
   } else {
     // element should be inserted to the right.
-    element -> height++;
+    element->height++;
     //* element->parent = parent(root, element);
     if (element -> key > root -> key) {
       // There is a right subtree to insert the node.
-      if (root -> right != NULL) {
+      if (root -> right != NULL)
+      {
         root -> right = insert(root -> right, element);
       }
       // Place the node directly to the right of root.
-      else {
+      else
+      {
         root -> right = element;
-        element -> parent = parent(root, element);
+        element->parent = parent(root, element);
 
       }
     }
     // element should be inserted to the left.
     else {
       // There is a left subtree to insert the node.
-      if (root -> left != NULL) {
-        root -> left = insert(root -> left, element);
-      }
+      if (root -> left != NULL)
+        {
+          root -> left = insert(root -> left, element);
+        }
       // Place the node directly to the left of root.
       else
         root -> left = element;
-      element -> parent = parent(root, element);
+        element->parent = parent(root, element);
     }
     // Return the root pointer of the updated tree.
     return root;
@@ -301,6 +304,8 @@ int menu() {
 //Inserts a given node to the tree
 Node * avlinsert(Node * node, int key) {
 
+  
+
   if (node == NULL)
 
     return (newNode(key));
@@ -313,13 +318,15 @@ Node * avlinsert(Node * node, int key) {
 
     node -> right = avlinsert(node -> right, key);
 
-  else
+  else  
 
-    return node;
+    return node; 
 
   node -> height = 1 + max(height(node -> left), height(node -> right));
 
   int balance = getBalance(node);
+
+   
 
   if (balance > 1 && key < node -> left -> key)
 
@@ -333,7 +340,8 @@ Node * avlinsert(Node * node, int key) {
 
   // Left Right Case 
 
-  if (balance > 1 && key > node -> left -> key) {
+  if (balance > 1 && key > node -> left -> key)
+  {
 
     node -> left = leftRotate(node -> left);
 
@@ -343,13 +351,14 @@ Node * avlinsert(Node * node, int key) {
 
   // Right Left Case 
 
-  if (balance < -1 && key < node -> right -> key) {
+  if (balance < -1 && key < node -> right -> key)
+  {
 
     node -> right = rightRotate(node -> right);
 
     return leftRotate(node);
 
-  }
+  } 
 
   return node;
 }
@@ -378,7 +387,7 @@ Node * newNode(int key) {
   node -> key = key;
   node -> left = NULL;
   node -> right = NULL;
-  node -> height = 1;
+  node -> height = 1;  
 
   return (node);
 }
@@ -387,7 +396,7 @@ Node * newNode(int key) {
 Node * rightRotate(Node * y) {
 
   Node * x = y -> left;
-  Node * T2 = x -> right;
+  Node * T2 = x -> right; 
 
   x -> right = y;
   y -> left = T2;
@@ -403,14 +412,14 @@ Node * rightRotate(Node * y) {
 Node * leftRotate(Node * x) {
 
   Node * y = x -> right;
-  Node * T2 = y -> left;
+  Node * T2 = y -> left; 
 
   y -> left = x;
-  x -> right = T2;
+  x -> right = T2; 
 
   x -> height = max(height(x -> left), height(x -> right)) + 1;
 
-  y -> height = max(height(y -> left), height(y -> right)) + 1;
+  y -> height = max(height(y -> left), height(y -> right)) + 1; 
 
   return y;
 }
@@ -426,132 +435,160 @@ int getBalance(Node * N) {
   return height(N -> left) - height(N -> right);
 }
 
-//Return vector of node values between a range
-vector < int > rangeSearch(int low, int high, Node * root) {
 
-  vector < int > myVect;
+//Return vector of node values between a range
+vector<int> rangeSearch(int low, int high, Node * root)
+{
+
+  vector<int> myVect;
   Node * temp = findNode(root, low);
 
-  while (temp -> key <= high) {
+  while(temp->key <= high)
+  {
 
-    myVect.push_back(temp -> key);
+    myVect.push_back(temp->key);
 
-    temp = next(root, temp);
+    temp = next(root, temp);    
 
-    if (temp == NULL)
-      break;
+    if(temp == NULL)
+    break;
+    
 
   }
 
   return myVect;
 
+
+
 }
 
 //Finds the height of the node 
-int computeHeight(Node * targetNode) {
+int computeHeight(Node * targetNode)
+{
 
-  return targetNode -> height;
+  return targetNode->height;
 
 }
 
 //Find the next biggest node
-Node * next(Node * root, Node * N) {
+Node * next(Node * root, Node * N)
+{
 
-  if (N -> right != NULL) {
+  if(N->right != NULL)
+  {
 
-    return leftDescendant(N -> right);
+    return leftDescendant(N->right);
 
-  } else {
+  }
+  else
+  {
 
     return rightAncestor(root, N);
 
   }
 
+  
+
 }
 
 //Return leftDescendant of working node
-Node * leftDescendant(Node * N) {
+Node * leftDescendant(Node * N)
+{
 
-  if (N -> left == NULL) {
+  if(N->left == NULL)
+  {
 
     return N;
 
-  } else {
-    return leftDescendant(N -> left);
+  }
+  else
+  {
+    return leftDescendant(N->left);
   }
 
 }
 
 //Return rightAncestor of working node
-Node * rightAncestor(Node * root, Node * N) {
-  if (parent(root, N) == NULL) {
+Node * rightAncestor(Node * root, Node * N)
+{
+  if(parent(root,N) == NULL){
     return NULL;
   }
-  if (N -> key < parent(root, N) -> key) {
-    if (parent(root, N) == NULL) {
+  if(N->key < parent(root,N)->key)
+  {
+    if(parent(root, N) == NULL)
+    {
 
       return N;
 
     }
 
-    return parent(root, N);
-  } else {
+    return parent(root,N);
+  }
+  else
+  {
     return rightAncestor(root, parent(root, N));
   }
 
 }
 
 //Delete the given node and then reblance if necessary
-Node * avlDelete(Node * root, int key) {
-  if (root == NULL) {
-    return root;
-  }
-  if (key < root -> key) {
-    root -> left = avlDelete(root -> left, key);
-  } else if (key > root -> key) {
-    root -> right = avlDelete(root -> right, key);
-  } else {
-    if (root -> left == NULL || root -> right == NULL) {
-      Node * temp = root -> left ? root -> left : root -> right;
-      if (temp == NULL) {
-        temp = root;
-        root = NULL;
-      } else {
-        * root = * temp;
-      }
-      delete temp;
-    } else {
-      Node * temp = minVal(root -> right);
-      root -> key = temp -> key;
-      root -> right = avlDelete(root -> right, temp -> key);
+Node* avlDelete(Node* root, int key) {
+    if (root == NULL) {
+        return root;
     }
-  }
-  if (root == NULL) {
-    return root;
-  }
-  root -> height = 1 + max(height(root -> left), height(root -> right));
+    if (key < root->key) {
+        root->left = avlDelete(root->left, key);
+    }
+    else if (key > root->key) {
+        root->right = avlDelete(root->right, key);
+    }
+    else {
+        if (root->left == NULL || root->right == NULL) {
+            Node* temp = root->left ? root->left : root->right;
+            if (temp == NULL) {
+                temp = root;
+                root = NULL;
+            }
+            else {
+                *root = *temp;
+            }
+            delete temp;
+        }
+        else {
+            Node* temp = minVal(root->right);
+            root->key = temp->key;
+            root->right = avlDelete(root->right, temp->key);
+        }
+    }
+    if (root == NULL) {
+        return root;
+    }
+    root->height = 1 + max(height(root->left), height(root->right));
 
-  int balance = getBalance(root);
-  // Left Left Case
-  if (balance > 1 && getBalance(root -> left) >= 0) {
-    return rightRotate(root);
-  }
-  // Left Right Case
-  if (balance > 1 && getBalance(root -> left) < 0) {
-    root -> left = leftRotate(root -> left);
-    return rightRotate(root);
-  }
-  // Right Right Case
-  if (balance < -1 && getBalance(root -> right) <= 0) {
-    return leftRotate(root);
-  }
-  // Right Left Case
-  if (balance < -1 && getBalance(root -> right) > 0) {
-    root -> right = rightRotate(root -> right);
-    return leftRotate(root);
-  }
-  return root;
+    int balance = getBalance(root);
+    // Left Left Case
+    if (balance > 1 && getBalance(root->left) >= 0) {
+        return rightRotate(root);
+    }
+    // Left Right Case
+    if (balance > 1 && getBalance(root->left) < 0) {
+        root->left = leftRotate(root->left);
+        return rightRotate(root);
+    }
+    // Right Right Case
+    if (balance < -1 && getBalance(root->right) <= 0) {
+        return leftRotate(root);
+    }
+    // Right Left Case
+    if (balance < -1 && getBalance(root->right) > 0) {
+        root->right = rightRotate(root->right);
+        return leftRotate(root);
+    }
+    return root;
 }
+
+
 
 int main() {
 

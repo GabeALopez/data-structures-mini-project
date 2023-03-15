@@ -72,7 +72,8 @@ Node * insert(Node * root, Node * element) {
   if (root == NULL) {
     element->height = 0;
     return element;
-  } else {
+  } 
+  else {
     // element inserted to the right.
     element->height++;
     //* element->parent = parent(root, element);

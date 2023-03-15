@@ -688,61 +688,6 @@ void rebalance(Node * root, Node * targetNode)
 } 
 
 
-bool avlInitialCheck(Node * targetNode)
-{
-
-if(targetNode->left == NULL & targetNode->right == NULL)
-  {
-
-    avlInitialCheck(targetNode->parent);
-
-  }  
-
-  if(targetNode->left == NULL)
-  {
-
-    if(targetNode->left == NULL & targetNode->right == NULL)
-    {
-      return true;
-    }
-
-   
-    if(targetNode->right->right != NULL || targetNode->right->left != NULL)
-    {
-
-      rebalanceLeft(targetNode);
-
-
-    }
-
-   
-    
-
-  }
-  else if(targetNode->right == NULL)
-  {
-
-
-    if(targetNode->left->left != NULL || targetNode->left->right != NULL)
-    {
-
-      rebalanceRight(targetNode);
-
-    }
-    
-
-  }
-
-  if(targetNode->parent != NULL)
-  {
-
-    avlInitialCheck(targetNode->parent);
-
-  }
-  
-  return true;
-
-}
 
 void rebalanceRight(Node * targetNode)
 {
@@ -800,10 +745,13 @@ void rebalanceLeft(Node * targetNode)
 
 void AVLInsert(Node * root, Node * workingNode)
 {
-
+  /*
   insert(root, workingNode);
   Node * temp = findNode(workingNode, workingNode->data);
   rebalance(root, temp);
+  */
+
+
 
 
 }

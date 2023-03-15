@@ -61,9 +61,9 @@ Node* avlDelete(Node* root, int key);
 void inorder(Node * currentPtr) {
   // Only traverse the node if it's not null.
   if (currentPtr != NULL) {
-    inorder(currentPtr -> left); // Go Left.
-    cout << " " << currentPtr -> key; // Print the root.
-    inorder(currentPtr -> right); // Go Right.
+    inorder(currentPtr->left); // Go Left.
+    cout << " " << currentPtr->key; // Print the root.
+    inorder(currentPtr->right); // Go Right.
   }
 }
 
@@ -76,16 +76,16 @@ Node * insert(Node * root, Node * element) {
     // element should be inserted to the right.
     element->height++;
     //* element->parent = parent(root, element);
-    if (element -> key > root -> key) {
+    if (element->key > root->key) {
       // There is a right subtree to insert the node.
-      if (root -> right != NULL)
+      if (root->right != NULL)
       {
-        root -> right = insert(root -> right, element);
+        root->right = insert(root->right, element);
       }
       // Place the node directly to the right of root.
       else
       {
-        root -> right = element;
+        root->right = element;
         element->parent = parent(root, element);
 
       }
@@ -93,13 +93,13 @@ Node * insert(Node * root, Node * element) {
     // element should be inserted to the left.
     else {
       // There is a left subtree to insert the node.
-      if (root -> left != NULL)
+      if (root->left != NULL)
         {
-          root -> left = insert(root -> left, element);
+          root->left = insert(root->left, element);
         }
       // Place the node directly to the left of root.
       else
-        root -> left = element;
+        root->left = element;
         element->parent = parent(root, element);
     }
     // Return the root pointer of the updated tree.
@@ -111,22 +111,22 @@ int find(Node * currentPtr, int val) {
   // Check if there are nodes in the tree.
   if (currentPtr != NULL) {
     // Found the value at the root.
-    if (currentPtr -> key == val)
+    if (currentPtr->key == val)
       return 1;
     // Search to the left.
-    if (val < currentPtr -> key)
-      return find(currentPtr -> left, val);
+    if (val < currentPtr->key)
+      return find(currentPtr->left, val);
     // Or search to the right.
     else
-      return find(currentPtr -> right, val);
+      return find(currentPtr->right, val);
   } else
     return 0;
 }
 
 int add(Node * currentPtr) {
   if (currentPtr != NULL)
-    return currentPtr -> key + add(currentPtr -> left) +
-      add(currentPtr -> right);
+    return currentPtr->key + add(currentPtr->left) +
+      add(currentPtr->right);
   else
     return 0;
 }
@@ -134,55 +134,55 @@ int add(Node * currentPtr) {
 // Returns the parent of the node pointed to by node in the tree rooted at
 // root. If the node is the root of the tree, or the node doesn't exist in
 // the tree, null will be returned.
-Node * parent(Node * root, Node * node) {
+Node * findParent(Node * root, Node * node) {
   // Take care of NULL cases.
   if (root == NULL || root == node)
     return NULL;
   // The root is the direct parent of node.
-  if (root -> left == node || root -> right == node)
+  if (root->left == node || root->right == node)
     return root;
   // Look for node's parent in the left side of the tree.
-  if (node -> key < root -> key)
-    return parent(root -> left, node);
+  if (node->key < root->key)
+    return parent(root->left, node);
   // Look for node's parent in the right side of the tree.
-  else if (node -> key > root -> key)
-    return parent(root -> right, node);
+  else if (node->key > root->key)
+    return parent(root->right, node);
   return NULL; // For any other cases.
 }
 
 // Returns a pointer to the node storing the minimum value in the tree
 Node * minVal(Node * root) {
   // Root stores the minimal value.
-  if (root -> left == NULL)
+  if (root->left == NULL)
     return root;
   // The left subtree of the root stores the minimal value.
   else
-    return minVal(root -> left);
+    return minVal(root->left);
 }
 
 // Returns a pointer to the node storing the maximum value in the tree
 Node * maxVal(Node * root) {
   // Root stores the maximal value.
-  if (root -> right == NULL)
+  if (root->right == NULL)
     return root;
   // The right subtree of the root stores the maximal value.
   else
-    return maxVal(root -> right);
+    return maxVal(root->right);
 }
 
 // Returns 1 if node is a leaf node, 0 otherwise.
 int isLeaf(Node * node) {
-  return (node -> left == NULL && node -> right == NULL);
+  return (node->left == NULL && node->right == NULL);
 }
 
 // Returns 1 iff node has a left child and no right child.
 int hasOnlyLeftChild(Node * node) {
-  return (node -> left != NULL && node -> right == NULL);
+  return (node->left != NULL && node->right == NULL);
 }
 
 // Returns 1 iff node has a right child and no left child.
 int hasOnlyRightChild(Node * node) {
-  return (node -> left == NULL && node -> right != NULL);
+  return (node->left == NULL && node->right != NULL);
 }
 
 // Returns a pointer to a node that stores value in it in the subtree
@@ -191,95 +191,76 @@ Node * findNode(Node * currentPtr, int value) {
     return NULL;
   }
   // Found the value at the root.
-  if (currentPtr -> key == value) {
+  if (currentPtr->key == value) {
     return currentPtr;
   }
-  if (value < currentPtr -> key) {
-    return findNode(currentPtr -> left, value);
+  if (value < currentPtr->key) {
+    return findNode(currentPtr->left, value);
   } else {
-    return findNode(currentPtr -> right, value);
+    return findNode(currentPtr->right, value);
   }
 }
 
-// Will delete the node storing value in the tree rooted at root. The
-// value must be present in the tree in order for this function to work.
-// The function returns a pointer to the root of the resulting tree.
 Node * deleteNode(Node * root, int value) {
-  Node * delnode, * newDelNode, * saveNode;
-  Node * par;
-  int saveVal;
-  delnode = findNode(root, value); // Get a pointer to the node to delete.
-  par = parent(root, delnode); // Get the parent of this node.
-  // Take care of the case where the node to delete is a leaf node.
-  if (isLeaf(delnode)) { // case 1
-    // Deleting the only node in the tree.
-    if (par == NULL) {
-      delete root; // free the memory for the node.
+  Node * delnode, *newDelNode, *saveNode;
+  Node * parent;
+  int temp;
+  delnode = findNode(root, value); 
+  parent = findParent(root, delnode); 
+  if (isLeaf(delnode)) {
+    if (parent == NULL) {
+      delete root;
       return NULL;
     }
-    // Deletes the node if it's a left child.
-    if (value < par -> key) {
-      delete par -> left; // Free the memory for the node.
+    if (value < parent->key) {
+      delete parent->left;
     }
-    // Deletes the node if it's a right child.
     else {
-      delete par -> right; // Free the memory for the node.
-      par -> right = NULL;
+      delete parent->right;
+      parent->right = NULL;
     }
-    return root; // Return the root of the new tree.
+    return root;
   }
-  // Take care of the case where the node to be deleted only has a left
-  // child.
   if (hasOnlyLeftChild(delnode)) {
-    // Deleting the root node of the tree.
-    if (par == NULL) {
-      saveNode = delnode -> left;
-      delete delnode; // Free the node to delete.
-      return saveNode; // Return the new root node of the resulting tree.
-    }
-    // Deletes the node if it's a left child.
-    if (value < par -> key) {
-      saveNode = par -> left; // Save the node to delete.
-      par -> left = par -> left -> left; // Readjust the parent pointer.
-      delete saveNode; // Free the memory for the deleted node.
-    }
-    // Deletes the node if it's a right child.
-    else {
-      saveNode = par -> right; // Save the node to delete.
-      par -> right = par -> right -> left; // Readjust the parent pointer.
-      delete saveNode; // Free the memory for the deleted node.
-    }
-    return root; // Return the root of the tree after the deletion.
-  }
-  // Takes care of the case where the deleted node only has a right child.
-  if (hasOnlyRightChild(delnode)) {
-    // Node to delete is the root node.
-    if (par == NULL) {
-      saveNode = delnode -> right;
+    if (parent == NULL) {
+      saveNode = delnode->left;
       delete delnode;
       return saveNode;
     }
-    // Delete's the node if it is a left child.
-    if (value < par -> key) {
-      saveNode = par -> left;
-      par -> left = par -> left -> right;
+    if (value < parent->key) {
+      saveNode = parent->left;
+      parent->left = parent->left->left;
       delete saveNode;
     }
-    // Delete's the node if it is a right child.
     else {
-      saveNode = par -> right;
-      par -> right = par -> right -> right;
+      saveNode = parent->right;
+      parent->right = parent->right->left;
       delete saveNode;
     }
     return root;
   }
-  //when delnode has two children
-  // Find the new physical node to delete.
-  newDelNode = minVal(delnode -> right);
-  saveVal = newDelNode -> key;
-  deleteNode(root, saveVal); // Now, delete the proper value.
-  // Restore the key to the original node to be deleted.
-  delnode -> key = saveVal;
+  if (hasOnlyRightChild(delnode)) {
+    if (parent == NULL) {
+      saveNode = delnode->right;
+      delete delnode;
+      return saveNode;
+    }
+    if (value < parent->key) {
+      saveNode = parent->left;
+      parent->left = parent->left->right;
+      delete saveNode;
+    }
+    else {
+      saveNode = parent->right;
+      parent->right = parent->right->right;
+      delete saveNode;
+    }
+    return root;
+  }
+  newDelNode = minVal(delnode->right);
+  temp = newDelNode->key;
+  deleteNode(root, temp);
+  delnode->key = temp;
   return root;
 }
 
@@ -310,40 +291,40 @@ Node * avlinsert(Node * node, int key) {
 
     return (newNode(key));
 
-  if (key < node -> key)
+  if (key < node->key)
 
-    node -> left = avlinsert(node -> left, key);
+    node->left = avlinsert(node->left, key);
 
-  else if (key > node -> key)
+  else if (key > node->key)
 
-    node -> right = avlinsert(node -> right, key);
+    node->right = avlinsert(node->right, key);
 
   else  
 
     return node; 
 
-  node -> height = 1 + max(height(node -> left), height(node -> right));
+  node->height = 1 + max(height(node->left), height(node->right));
 
   int balance = getBalance(node);
 
    
 
-  if (balance > 1 && key < node -> left -> key)
+  if (balance > 1 && key < node->left->key)
 
     return rightRotate(node);
 
   // Right Right Case 
 
-  if (balance < -1 && key > node -> right -> key)
+  if (balance < -1 && key > node->right->key)
 
     return leftRotate(node);
 
   // Left Right Case 
 
-  if (balance > 1 && key > node -> left -> key)
+  if (balance > 1 && key > node->left->key)
   {
 
-    node -> left = leftRotate(node -> left);
+    node->left = leftRotate(node->left);
 
     return rightRotate(node);
 
@@ -351,10 +332,10 @@ Node * avlinsert(Node * node, int key) {
 
   // Right Left Case 
 
-  if (balance < -1 && key < node -> right -> key)
+  if (balance < -1 && key < node->right->key)
   {
 
-    node -> right = rightRotate(node -> right);
+    node->right = rightRotate(node->right);
 
     return leftRotate(node);
 
@@ -370,7 +351,7 @@ int height(Node * N) {
 
     return 0;
 
-  return N -> height;
+  return N->height;
 }
 
 //Finds the max of two node values
@@ -384,10 +365,10 @@ Node * newNode(int key) {
 
   Node * node = new Node();
 
-  node -> key = key;
-  node -> left = NULL;
-  node -> right = NULL;
-  node -> height = 1;  
+  node->key = key;
+  node->left = NULL;
+  node->right = NULL;
+  node->height = 1;  
 
   return (node);
 }
@@ -395,15 +376,15 @@ Node * newNode(int key) {
 //Conducts the right rotate 
 Node * rightRotate(Node * y) {
 
-  Node * x = y -> left;
-  Node * T2 = x -> right; 
+  Node * x = y->left;
+  Node * T2 = x->right; 
 
-  x -> right = y;
-  y -> left = T2;
+  x->right = y;
+  y->left = T2;
 
-  y -> height = max(height(y -> left), height(y -> right)) + 1;
+  y->height = max(height(y->left), height(y->right)) + 1;
 
-  x -> height = max(height(x -> left), height(x -> right)) + 1;
+  x->height = max(height(x->left), height(x->right)) + 1;
 
   return x;
 }
@@ -411,15 +392,15 @@ Node * rightRotate(Node * y) {
 //Conducts the left rotate 
 Node * leftRotate(Node * x) {
 
-  Node * y = x -> right;
-  Node * T2 = y -> left; 
+  Node * y = x->right;
+  Node * T2 = y->left; 
 
-  y -> left = x;
-  x -> right = T2; 
+  y->left = x;
+  x->right = T2; 
 
-  x -> height = max(height(x -> left), height(x -> right)) + 1;
+  x->height = max(height(x->left), height(x->right)) + 1;
 
-  y -> height = max(height(y -> left), height(y -> right)) + 1; 
+  y->height = max(height(y->left), height(y->right)) + 1; 
 
   return y;
 }
@@ -432,7 +413,7 @@ int getBalance(Node * N) {
 
     return 0;
 
-  return height(N -> left) - height(N -> right);
+  return height(N->left) - height(N->right);
 }
 
 
@@ -638,7 +619,7 @@ int main() {
         cout << "Node does not exist";
       } else {
         Node * temp = next(root, findNode(root, val));
-        cout << "The value of the next node is " << temp -> key;
+        cout << "The value of the next node is " << temp->key;
       }
       break;
     case 6:

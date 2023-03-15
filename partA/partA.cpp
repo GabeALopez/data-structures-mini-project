@@ -550,6 +550,7 @@ void rebalance(Node * root, Node * targetNode)
       yNode->right = zNode;
       zNode->parent = yNode;
       zNode->left = NULL;
+      root = yNode;
 
 
     }
@@ -560,6 +561,7 @@ void rebalance(Node * root, Node * targetNode)
       yNode->left = zNode;
       zNode->parent = yNode;
       zNode->right = NULL;
+      root = yNode;
 
     }
 
@@ -583,6 +585,12 @@ void rebalance(Node * root, Node * targetNode)
       zNode->left = yNode->right;
       yNode->right = zNode;
       zNode->parent = yNode;
+
+      if(zNode == root)
+      {
+        yNode = root;
+
+      }
       
 
       yNode->height--;
@@ -601,6 +609,13 @@ void rebalance(Node * root, Node * targetNode)
       yNode->right = zNode;
       zNode->parent = yNode;
 
+      if(zNode == root)
+      {
+
+        xNode = root;
+
+      }
+
       yNode->height++;
       zNode->height++;
       xNode->height--;
@@ -612,6 +627,13 @@ void rebalance(Node * root, Node * targetNode)
       yNode->parent = zNode->parent;
       yNode->left = zNode;
       zNode->parent = yNode;
+
+      if(zNode == root)
+      {
+
+        yNode = root;
+
+      }
 
       yNode->height--;
       xNode->height++;
@@ -627,6 +649,12 @@ void rebalance(Node * root, Node * targetNode)
       yNode->parent = zNode->parent;
       yNode->left = zNode;
       zNode->parent = yNode;
+
+      if(zNode == root)
+      {
+        xNode = root;
+      }
+
 
       yNode->height++;
       zNode->height++;

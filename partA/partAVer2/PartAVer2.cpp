@@ -56,7 +56,10 @@ Node * next(Node * root, Node * N);
 Node * leftDescendant(Node * N);
 Node * rightAncestor(Node * root, Node * N);
 Node* avlDelete(Node* root, int key);
-
+void rebalanceRight(Node * node);
+void rebalanceLeft(Node * node);
+bool isUnbalanced(Node * root);
+Node * rebalance(Node * node, int key);
 
 void inorder(Node * currentPtr) {
   // Only traverse the node if it's not null.
@@ -128,6 +131,25 @@ int add(Node * currentPtr) {
       add(currentPtr->right);
   else
     return 0;
+}
+
+// Returns the parent of the node pointed to by node in the tree rooted at
+// root. If the node is the root of the tree, or the node doesn't exist in
+// the tree, null will be returned.
+Node * parent(Node * root, Node * node) {
+  // Take care of NULL cases.
+  if (root == NULL || root == node)
+    return NULL;
+  // The root is the direct parent of node.
+  if (root -> left == node || root -> right == node)
+    return root;
+  // Look for node's parent in the left side of the tree.
+  if (node -> key < root -> key)
+    return parent(root -> left, node);
+  // Look for node's parent in the right side of the tree.
+  else if (node -> key > root -> key)
+    return parent(root -> right, node);
+  return NULL; // For any other cases.
 }
 
 // Returns the parent of the node pointed to by node in the tree rooted at
@@ -282,7 +304,8 @@ int menu() {
 }
 
 //Inserts a given node to the tree
-Node * avlinsert(Node * node, int key) {
+Node * avlinsert(Node * node, int key) 
+{
 
   
 
@@ -304,42 +327,15 @@ Node * avlinsert(Node * node, int key) {
 
   node->height = 1 + max(height(node->left), height(node->right));
 
-  int balance = getBalance(node);
 
-   
-
-  if (balance > 1 && key < node->left->key)
-
-    return rightRotate(node);
-
-  // Right Right Case 
-
-  if (balance < -1 && key > node->right->key)
-
-    return leftRotate(node);
-
-  // Left Right Case 
-
-  if (balance > 1 && key > node->left->key)
+  if(isUnbalanced(node))
   {
-
-    node->left = leftRotate(node->left);
-
-    return rightRotate(node);
-
+    return rebalance(node, key);
   }
 
-  // Right Left Case 
+  return rebalance(node,key);
 
-  if (balance < -1 && key < node->right->key)
-  {
-
-    node->right = rightRotate(node->right);
-
-    return leftRotate(node);
-
-  } 
-
+  
   return node;
 }
 
@@ -568,9 +564,93 @@ Node* avlDelete(Node* root, int key) {
     return root;
 }
 
+//Rebalances a target node
+Node * rebalance(Node * node, int key)
+{
+
+  int balance = getBalance(node); 
+
+  if (balance > 1 && key < node->left->key)
+  {
+
+    return rightRotate(node);
+  }
+  // Right Right Case 
+
+  if (balance < -1 && key > node->right->key)
+  {
+    return leftRotate(node);
+  }
+  // Left Right Case 
+
+  if (balance > 1 && key > node->left->key)
+  {
+
+    rebalanceLeft(node);
+
+    return rightRotate(node);
+
+  }
+
+  // Right Left Case 
+
+  if (balance < -1 && key < node->right->key)
+  {
 
 
-int main() {
+    rebalanceRight(node);
+
+    return leftRotate(node);
+
+  }
+
+
+  return node;
+
+}
+
+//Determines whether or not a node is balanced
+bool isUnbalanced(Node * root)
+{
+
+  if(root == NULL)
+  {
+
+    return false;
+
+  }
+
+  int leftNodeHeight = height(root->left);
+  int rightNodeHeight = height(root->right);
+
+  if(abs(leftNodeHeight - rightNodeHeight) > 1)
+  {
+    return true;
+  }
+
+  return isUnbalanced(root->left) || isUnbalanced(root->right);
+
+}
+
+//rebalances the right of a target node
+void rebalanceRight(Node * node)
+{
+
+  node->right = rightRotate(node->right);
+
+}
+
+//rebalances the left of a target node 
+void rebalanceLeft(Node * node)
+{
+
+ node->left = leftRotate(node->left); 
+  
+
+}
+
+int main() 
+{
 
   Node * root = NULL;
 
